@@ -1,8 +1,11 @@
 # AssistantAI
 
+## Installation Guide
+
 ### Install `pip install SpeechRecognition`
 
 ### Install `pip install pyaudio`
+
 **OR**  
 Find the appropriate `.whl` file from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio), for example mine is `PyAudio‑0.2.11‑cp310‑cp310m‑win_amd64.whl`, and download it.  
 Go to the folder where it is downloaded for example `cd C:\Users\foobar\Downloads`  

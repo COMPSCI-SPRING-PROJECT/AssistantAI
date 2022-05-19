@@ -11,12 +11,14 @@ def main():
         try:
             with mic as source:
                 r.adjust_for_ambient_noise(source, duration=0.2)
-                audio = r.listen(source,timeout=5)
+                print("Listening: ")
+                audio = r.listen(source,timeout=2)
                 
                 myText = r.recognize_google(audio)
                 myText = myText.lower()
                 
                 if (myText == "stop"):
+                    print("Stop!")
                     break
     
                 print("Did you say "+ myText + "?")

@@ -11,9 +11,9 @@ def main():
         try:
             with mic as source:
                 r.adjust_for_ambient_noise(source, duration=0.2)
-                audio2 = r.listen(source,timeout=5)
+                audio = r.listen(source,timeout=5)
                 
-                myText = r.recognize_google(audio2)
+                myText = r.recognize_google(audio)
                 myText = myText.lower()
                 
                 if (myText == "stop"):

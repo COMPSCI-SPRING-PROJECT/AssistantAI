@@ -2,6 +2,8 @@
 
 ## Installation Guide
 
+### Install `pip install pipreqs` and Run `pip install -r requirements.txt` to install the following libraries
+
 ### Install `pip install SpeechRecognition`
 
 ### Install `pip install pyaudio`

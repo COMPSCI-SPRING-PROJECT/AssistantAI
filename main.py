@@ -1,12 +1,13 @@
 from tkinter import *
 import speech_recognition as sr
 import pyttsx3
+import pyaudio
 import time
 
-def main():
+def main():    
     r = sr.Recognizer()
     mic = sr.Microphone()
-
+    
     while(1):
         try:
             with mic as source:

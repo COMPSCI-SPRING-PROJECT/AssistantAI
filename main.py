@@ -5,6 +5,16 @@ import pyaudio
 import time
 
 def main():    
+    voiceSpeech();
+ 
+def speakText(command):
+    engine = pyttsx3.init()
+    newVoiceRate = 145
+    engine.setProperty('rate',newVoiceRate)
+    engine.say(command)
+    engine.runAndWait()
+
+def voiceSpeech():
     r = sr.Recognizer()
     mic = sr.Microphone()
     
@@ -23,19 +33,17 @@ def main():
                     break
     
                 print("Did you say "+ myText + "?")
-                SpeakText(myText)
+                speakText(myText)
                 
         except sr.RequestError as e:
             print("Could not request results; {0}".format(e))
             
         except sr.UnknownValueError:
             print("Unknown error occured.")
- 
-def SpeakText(command):
-    engine = pyttsx3.init()
-    newVoiceRate = 145
-    engine.setProperty('rate',newVoiceRate)
-    engine.say(command)
-    engine.runAndWait()
+
+def googleSearch():
+    
+def weather():
+    
 
 main()

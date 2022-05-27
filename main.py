@@ -4,6 +4,9 @@ import speech_recognition as sr
 import pyttsx3
 import pyaudio
 import requests
+import gtts
+import os
+from playsound import playsound
 from logging import exception
 import config
 from datetime import datetime
@@ -17,11 +20,23 @@ def main():
         respond(voiceSpeech())
 
 def speakText(command):
-    engine = pyttsx3.init()
-    newVoiceRate = 145
-    engine.setProperty('rate', newVoiceRate)
-    engine.say(command)
-    engine.runAndWait()
+    try:
+        tts = gtts.gTTS(command)
+        audio_file = "test.mp3"
+        tts.save(audio_file)
+        playsound(audio_file)
+        os.remove(audio_file)
+    except Exception:
+        print("Error with Google-Text-To-Speech")
+        print("Switching to offline Text-To-Speech")
+        engine = pyttsx3.init()
+        voices = engine.getProperty("voices")
+        engine.setProperty('voice', voices[1].id)
+        newVoiceRate = 145
+        engine.setProperty('rate', newVoiceRate)
+        engine.say(command)
+        engine.runAndWait()
+
 
 def voiceSpeech(ask=False):
     r = sr.Recognizer()
@@ -71,7 +86,7 @@ def respond(data):
         if dict_weather['success']:
             del dict_weather['success']
             print(dict_weather)
-            speakText(dict_weather)
+            speakText(str(dict_weather))
         else:
             print("Could not find weather for " + city)
             speakText("Could not find weather for " + city)       
@@ -80,6 +95,7 @@ def respond(data):
     else:
         print("Did you say" + data + "?")
         speakText("Did you say" + data + "?")
+
 class Weather:
 
     KEY = ""
@@ -107,8 +123,8 @@ class Weather:
             lon = str(geo_data[0]['lon'])
             api_data = self.__callAPI("https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid="+self.KEY)
             weather = api_data['weather'][0]['description']
-            temperature=str(self.__convertKtoC(api_data['main']['temp']))+"°celsius"
-            feels_like = str(self.__convertKtoC(api_data['main']['feels_like']))+"°celsius"
+            temperature=str(self.__convertKtoC(api_data['main']['temp']))+"°C"
+            feels_like = str(self.__convertKtoC(api_data['main']['feels_like']))+"°C"
             humidity = str(api_data['main']['humidity'])+"%"
             return {'success':True,'weather':weather,'temperature':temperature,'feels like': feels_like,'humidity':humidity}
         except exception:

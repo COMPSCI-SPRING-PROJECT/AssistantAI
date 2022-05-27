@@ -6,8 +6,9 @@ def func():
     button = Button(text="Speak",width=35,height=8,bg="yellow",fg="blue")
     greetings.pack()
     button.pack()
-    img = PhotoImage(file="/Users/ujjwalraj/Desktop/bott.png")
+    img = PhotoImage(file="bott.png")
     panel = Label(i, image = img)
     panel.pack(side = "bottom", fill = "both", expand = "yes")
+    i.mainloop()
     
 func()

@@ -63,6 +63,9 @@ def respond(data):
         speakText("Result for " + search)
     if "stop" in data or "exit" in data:
         exit()
+    else:
+        print("Did you say" + data + "?")
+        speakText("Did you say" + data + "?")
 
 def weather():
     print("Fill out here")

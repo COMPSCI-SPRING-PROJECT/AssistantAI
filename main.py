@@ -4,6 +4,8 @@ import speech_recognition as sr
 import pyttsx3
 import pyaudio
 import requests
+from logging import exception
+import config
 from datetime import datetime
 import time
 
@@ -43,31 +45,73 @@ def respond(data):
     if "what is your name" == data:
         print("My name is " + NAME)
         speakText("My name is " + NAME)
-    if "what" in data and "time" in data:
+    elif "what" in data and "time" in data:
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         print("Current Time =", current_time)
         speakText("Current time is " + current_time)
-    if "find location" in data:
+    elif "find location" in data:
         location = voiceSpeech("What is the location?")
         url = "http://www.google.nl/maps/place/" + location + "/&amp;"
         webbrowser.get().open(url)
         print("Result for location " + location)
         speakText("Result for location " + location)
-    if "search" in data:
+    elif "search" in data:
         search = voiceSpeech("What do you want to search for?")
         print(search)
         url = "http://www.google.com/search?q=" + search
         webbrowser.get().open(url)
         print("Result for " + search)
         speakText("Result for " + search)
-    if "stop" in data or "exit" in data:
+    elif "weather" in data:
+        weather = Weather(config.api_key) #Key in config.py, which is hidden due to .gitignore
+        city = voiceSpeech("What city's weather do you want to search?")
+        print(city)
+        dict_weather = weather.getWeather(city)
+        if dict_weather['success']:
+            del dict_weather['success']
+            print(dict_weather)
+            speakText(dict_weather)
+        else:
+            print("Could not find weather for " + city)
+            speakText("Could not find weather for " + city)       
+    elif "stop" in data or "exit" in data:
         exit()
     else:
         print("Did you say" + data + "?")
         speakText("Did you say" + data + "?")
+class Weather:
 
-def weather():
-    print("Fill out here")
+    KEY = ""
 
+    def __init__(self, key):
+        self.KEY = key
+
+    def __callAPI(self,link):
+        req = requests.get(link)
+        data = req.json()
+        return data
+
+    def __convertKtoC(self, temp):
+        return round(temp-273.15,1)
+
+    """
+    getWeather takes a location and returns a dictionary
+    the dictionary contains whether the API call was successful, if it is successful then it also 
+    contains weather description, current temperature, current feels like temperature, and humidity. 
+    """
+    def getWeather(self, location: str):
+        try:
+            geo_data = self.__callAPI("http://api.openweathermap.org/geo/1.0/direct?q="+location+"&limit=2&appid="+self.KEY)
+            lat = str(geo_data[0]['lat'])
+            lon = str(geo_data[0]['lon'])
+            api_data = self.__callAPI("https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid="+self.KEY)
+            weather = api_data['weather'][0]['description']
+            temperature=str(self.__convertKtoC(api_data['main']['temp']))+"°celsius"
+            feels_like = str(self.__convertKtoC(api_data['main']['feels_like']))+"°celsius"
+            humidity = str(api_data['main']['humidity'])+"%"
+            return {'success':True,'weather':weather,'temperature':temperature,'feels like': feels_like,'humidity':humidity}
+        except exception:
+            return {'success':False}
+        
 main()

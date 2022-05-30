@@ -15,7 +15,7 @@ import time
 
 load_dotenv()
 
-api_key = os.getenv('API_KEY')
+api_key = os.getenv('api_key')
 
 NAME = "Avery"
 
@@ -143,7 +143,7 @@ class Weather:
                 api_data['main']['feels_like']))+"°C"
             humidity = str(api_data['main']['humidity'])+"%"
             return {'success': True, 'weather': weather, 'temperature': temperature, 'feels like': feels_like, 'humidity': humidity}
-        except Exception:
+        except exception:
             return {'success': False}
 
 

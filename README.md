@@ -2,6 +2,8 @@
 
 ## Installation Guide
 
+### Run `cp sample.env .env` to load enviornment variables
+
 ### Install `pip install pipreqs` and Run `pip install -r requirements.txt` to install the following libraries
 
 ### Install `pip install SpeechRecognition`

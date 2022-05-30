@@ -143,7 +143,7 @@ class Weather:
                 api_data['main']['feels_like']))+"°C"
             humidity = str(api_data['main']['humidity'])+"%"
             return {'success': True, 'weather': weather, 'temperature': temperature, 'feels like': feels_like, 'humidity': humidity}
-        except exception:
+        except Exception:
             return {'success': False}
 
 

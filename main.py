@@ -1,3 +1,4 @@
+import random
 from tkinter import *
 import webbrowser
 import speech_recognition as sr
@@ -8,9 +9,13 @@ import gtts
 import os
 from playsound import playsound
 from logging import exception
-import config
+from dotenv import load_dotenv
 from datetime import datetime
 import time
+
+load_dotenv()
+
+api_key = os.getenv('API_KEY')
 
 NAME = "Avery"
 
@@ -24,7 +29,8 @@ def main():
 def speakText(command):
     try:
         tts = gtts.gTTS(command)
-        audio_file = "test.mp3"
+        randNum = random.randint(1,1000000000)
+        audio_file = "test-" + randNum + ".mp3"
         tts.save(audio_file)
         playsound(audio_file)
         os.remove(audio_file)
@@ -83,7 +89,7 @@ def respond(data):
         speakText("Result for " + search)
     elif "weather" in data:
         # Key in config.py, which is hidden due to .gitignore
-        weather = Weather(config.api_key)
+        weather = Weather(api_key)
         city = voiceSpeech("What city's weather do you want to search?")
         print(city)
         dict_weather = weather.getWeather(city)

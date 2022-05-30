@@ -29,8 +29,7 @@ def main():
 def speakText(command):
     try:
         tts = gtts.gTTS(command)
-        randNum = random.randint(1,1000000000)
-        audio_file = "test-" + randNum + ".mp3"
+        audio_file = "test.mp3"
         tts.save(audio_file)
         playsound(audio_file)
         os.remove(audio_file)

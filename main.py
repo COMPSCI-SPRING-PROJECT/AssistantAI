@@ -14,10 +14,12 @@ import time
 
 NAME = "Avery"
 
+
 def main():
     time.sleep(1)
     while 1:
         respond(voiceSpeech())
+
 
 def speakText(command):
     try:
@@ -56,6 +58,7 @@ def voiceSpeech(ask=False):
         print("Unknown error occured.")
     return myText
 
+
 def respond(data):
     if "what is your name" == data:
         print("My name is " + NAME)
@@ -79,7 +82,8 @@ def respond(data):
         print("Result for " + search)
         speakText("Result for " + search)
     elif "weather" in data:
-        weather = Weather(config.api_key) #Key in config.py, which is hidden due to .gitignore
+        # Key in config.py, which is hidden due to .gitignore
+        weather = Weather(config.api_key)
         city = voiceSpeech("What city's weather do you want to search?")
         print(city)
         dict_weather = weather.getWeather(city)
@@ -89,12 +93,13 @@ def respond(data):
             speakText(str(dict_weather))
         else:
             print("Could not find weather for " + city)
-            speakText("Could not find weather for " + city)       
+            speakText("Could not find weather for " + city)
     elif "stop" in data or "exit" in data:
         exit()
     else:
         print("Did you say" + data + "?")
         speakText("Did you say" + data + "?")
+
 
 class Weather:
 
@@ -103,31 +108,37 @@ class Weather:
     def __init__(self, key):
         self.KEY = key
 
-    def __callAPI(self,link):
+    def __callAPI(self, link):
         req = requests.get(link)
         data = req.json()
         return data
 
     def __convertKtoC(self, temp):
-        return round(temp-273.15,1)
+        return round(temp-273.15, 1)
 
     """
     getWeather takes a location and returns a dictionary
     the dictionary contains whether the API call was successful, if it is successful then it also 
     contains weather description, current temperature, current feels like temperature, and humidity. 
     """
+
     def getWeather(self, location: str):
         try:
-            geo_data = self.__callAPI("http://api.openweathermap.org/geo/1.0/direct?q="+location+"&limit=2&appid="+self.KEY)
+            geo_data = self.__callAPI(
+                "http://api.openweathermap.org/geo/1.0/direct?q="+location+"&limit=2&appid="+self.KEY)
             lat = str(geo_data[0]['lat'])
             lon = str(geo_data[0]['lon'])
-            api_data = self.__callAPI("https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid="+self.KEY)
+            api_data = self.__callAPI(
+                "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid="+self.KEY)
             weather = api_data['weather'][0]['description']
-            temperature=str(self.__convertKtoC(api_data['main']['temp']))+"°C"
-            feels_like = str(self.__convertKtoC(api_data['main']['feels_like']))+"°C"
+            temperature = str(self.__convertKtoC(
+                api_data['main']['temp']))+"°C"
+            feels_like = str(self.__convertKtoC(
+                api_data['main']['feels_like']))+"°C"
             humidity = str(api_data['main']['humidity'])+"%"
-            return {'success':True,'weather':weather,'temperature':temperature,'feels like': feels_like,'humidity':humidity}
+            return {'success': True, 'weather': weather, 'temperature': temperature, 'feels like': feels_like, 'humidity': humidity}
         except exception:
-            return {'success':False}
-        
+            return {'success': False}
+
+
 main()

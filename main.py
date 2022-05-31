@@ -2,7 +2,6 @@ import random
 import webbrowser
 import speech_recognition as sr
 import pyttsx3
-import pyaudio
 import requests
 import gtts
 import os

@@ -1,4 +1,3 @@
-import random
 import webbrowser
 import speech_recognition as sr
 import pyttsx3
@@ -18,7 +17,6 @@ NAME = "Avery"
 
 def main():
     time.sleep(1)
-    print(api_key)
     while 1:
         respond(voiceSpeech())
 

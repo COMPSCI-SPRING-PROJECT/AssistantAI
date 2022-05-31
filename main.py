@@ -1,5 +1,4 @@
 import random
-from tkinter import *
 import webbrowser
 import speech_recognition as sr
 import pyttsx3
@@ -13,15 +12,14 @@ from dotenv import load_dotenv
 from datetime import datetime
 import time
 
-load_dotenv()
-
-api_key = os.getenv('api_key')
+api_key = os.environ['API_KEY']
 
 NAME = "Avery"
 
 
 def main():
     time.sleep(1)
+    print(api_key)
     while 1:
         respond(voiceSpeech())
 

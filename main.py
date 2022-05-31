@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 import time
 
-api_key = os.environ['API_KEY']
+api_key = "3fb551e63f9e07cb81cc64ff1bf4fb61"
 
 NAME = "Avery"
 

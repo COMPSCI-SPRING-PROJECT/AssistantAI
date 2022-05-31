@@ -35,4 +35,3 @@ jobs:
       - name: execute py script
         env: 
           API_KEY: ${{ secrets.API_KEY }}
-        run: python main.py

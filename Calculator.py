@@ -93,4 +93,4 @@ class Calc:
 
 
 calc = Calc()
-print(calc.fromString("What is 3 TO THE POWER OF 3.9"))
+print(calc.fromString("What's 5 multiplied by 200"))

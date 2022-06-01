@@ -1,7 +1,7 @@
 import webbrowser
 import speech_recognition as sr
 import pyttsx3
-import Weather_API
+import Weather
 import gtts
 import os
 from playsound import playsound
@@ -85,7 +85,7 @@ def respond(data):
         speakText("Result for " + search)
     elif "weather" in data:
         # Key in config.py, which is hidden due to .gitignore
-        weather = Weather_API.Weather(api_key)
+        weather = Weather.Weather(api_key)
         city = voiceSpeech("What city's weather do you want to search?")
         print(city)
         dict_weather = weather.getWeather(city)

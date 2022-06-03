@@ -16,6 +16,10 @@ api_key = os.getenv('api_key')
 
 NAME = "Avery"
 
+def printSpeak(text):
+    print(text)
+    speakText(text)
+
 
 def main():
     time.sleep(1)
@@ -48,8 +52,7 @@ def voiceSpeech(ask=False):
     try:
         with mic as source:
             if ask:
-                print(ask)
-                speakText(ask)
+                printSpeak(ask)
             r.adjust_for_ambient_noise(source, duration=0.2)
             print("Listening: ")
             audio = r.listen(source, timeout=4)
@@ -63,26 +66,23 @@ def voiceSpeech(ask=False):
 
 def respond(data):
     if "what is your name" == data:
-        print("My name is " + NAME)
-        speakText("My name is " + NAME)
+        printSpeak("My name is " + NAME)
     elif "what" in data and "time" in data:
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
-        print("Current Time =", current_time)
-        speakText("Current time is " + current_time)
+        printSpeak("Current Time =", current_time)
     elif "find location" in data:
         location = voiceSpeech("What is the location?")
         url = "http://www.google.nl/maps/place/" + location + "/&amp;"
         webbrowser.get().open(url)
-        print("Result for location " + location)
-        speakText("Result for location " + location)
+        printSpeak("Result for location " + location)
     elif "search" in data:
         search = voiceSpeech("What do you want to search for?")
         print(search)
         url = "http://www.google.com/search?q=" + search
         webbrowser.get().open(url)
-        print("Result for " + search)
-        speakText("Result for " + search)
+        printSpeak("Result for " + search)
+        
     elif "weather" in data:
         # Key in config.py, which is hidden due to .gitignore
         weather = Weather.Weather(api_key)
@@ -91,16 +91,14 @@ def respond(data):
         dict_weather = weather.getWeather(city)
         if dict_weather['success']:
             del dict_weather['success']
-            print(dict_weather)
-            speakText(str(dict_weather))
+            printSpeak(str(dict_weather))
         else:
-            print("Could not find weather for " + city)
-            speakText("Could not find weather for " + city)
+            printSpeak("Could not find weather for " + city)
+
     elif "stop" in data or "exit" in data:
         exit()
     else:
-        print("Did you say" + data + "?")
-        speakText("Did you say" + data + "?")
+        printSpeak("Did you say" + data + "?")
 
 
 main()

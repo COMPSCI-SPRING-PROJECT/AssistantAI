@@ -1,16 +1,11 @@
-
-
-
 class Calc:
     add = ['plus','add']
     sub = ['minus','subtract']
     div = ['divide', 'divided by','over']
     mult = ['times', 'multiply','multiplied by']
-    pow = ['to the power of', 'raised to', 'raised to the power of']
-    
+    pow = ['to the power of', 'raised to', 'raised to the power of']  
     all = add+sub+div+mult+pow
 
-    
     def __fadd(x,y):
         return x+y
     
@@ -26,7 +21,6 @@ class Calc:
     converterTextFunc = {'add': __fadd, 'sub': __fsub, 'div': __fdiv, 'mult': __fmult, 'pow': __fpow}
     converterTextList = {'add': add, 'sub': sub, 'div': div, 'mult': mult, 'pow':pow}
     
-
     """
     Tim's current approach:
     just handle basic operations
@@ -71,26 +65,16 @@ class Calc:
             cmd = cmd[cmd.find('s')+2:] # remove up to s and one more for the space after the word
 
 
-        
+        """
+        for item in the list of words used for the operation
+        if item is found then split the text to grab the numbers
+        then return the result of the operation applied to the numbers
+        """
         for item in self.converterTextList[op]:
             if item in cmd:
                 cmd = cmd.split(item)
                 break
         return str(self.converterTextFunc[op](float(cmd[0]),float(cmd[1])))
-
-        # #addition NOW OUTDATED BECAUSE I FOUND A WAY TO DO ALL OPERATIONS INSTEAD OF EACH INDIVIDUALLY
-        # for item in self.add:
-        #     if item in cmd:
-        #         #slice before the keyword and after to get numbers
-        #         cmd = cmd.split(item)
-        #         break
-        # return (str(float(cmd[0])+float(cmd[1])))
-
-
-
-
-
-
 
 calc = Calc()
 print(calc.fromString("What's 5 multiplied by 200"))

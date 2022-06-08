@@ -1,8 +1,8 @@
 class Calc:
     add = ['plus','add']
     sub = ['minus','subtract']
-    div = ['divide', 'divided by','over']
-    mult = ['times', 'multiply','multiplied by']
+    div = ['divided by', 'divide','over'] 
+    mult = ['times', 'multiply by','multiplied by', 'multiply']
     pow = ['to the power of', 'raised to', 'raised to the power of']  
     all = add+sub+div+mult+pow
 
@@ -77,4 +77,4 @@ class Calc:
         return str(self.converterTextFunc[op](float(cmd[0]),float(cmd[1])))
 
 calc = Calc()
-print(calc.fromString("What's 5 multiplied by 200"))
+print(calc.fromString("What is 575 divide 3"))

@@ -1,9 +1,11 @@
+import subprocess
 import webbrowser
 import speech_recognition as sr
 import pyttsx3
 import Weather
 import gtts
 import os
+import Calculator
 from playsound import playsound
 from logging import exception
 from dotenv import load_dotenv
@@ -15,11 +17,6 @@ load_dotenv()
 api_key = os.getenv('api_key')
 
 NAME = "Avery"
-
-def printSpeak(text):
-    print(text)
-    speakText(text)
-
 
 def main():
     time.sleep(1)
@@ -65,6 +62,7 @@ def voiceSpeech(ask=False):
 
 
 def respond(data):
+    calc = Calculator()
     if "what is your name" == data:
         printSpeak("My name is " + NAME)
     elif "what" in data and "time" in data:
@@ -94,11 +92,32 @@ def respond(data):
             printSpeak(str(dict_weather))
         else:
             printSpeak("Could not find weather for " + city)
-
     elif "stop" in data or "exit" in data:
         exit()
+    elif checkCalc(data, calc):
+        printSpeak(calc.fromString(data))
+    elif "open" in data:
+        data_temp = data.split(" ")[1]
+        os.system(data_temp)
+        printSpeak("Opened " + data_temp)
+    elif "open" in data and "file" in data:
+        query_string = data.split(" ")[2]
+        local_path = r'C:\Users'
+        subprocess.Popen(
+            f'explorer /root,"search-ms:query={query_string}&crumb=folder:{local_path}&"')
     else:
         printSpeak("Did you say" + data + "?")
 
+
+def checkCalc(data, calc):
+    for word in data:
+        if word in calc.all:
+            return True
+    return False
+
+
+def printSpeak(text):
+    print(text)
+    speakText(text)
 
 main()

@@ -39,3 +39,14 @@ class Weather:
             return {'success': True, 'weather': weather, 'temperature': temperature, 'feels like': feels_like, 'humidity': humidity}
         except Exception:
             return {'success': False}
+
+
+    def getTime(self, location):
+
+        #from location to lat lon
+        geo_data = self.__callAPI("http://api.openweathermap.org/geo/1.0/direct?q="+location+"&limit=2&appid="+self.KEY)
+        lat = str(geo_data[0]['lat'])
+        lon = str(geo_data[0]['lon'])
+
+        #from lat lon to timezone
+        

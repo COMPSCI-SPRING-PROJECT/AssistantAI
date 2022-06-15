@@ -81,7 +81,7 @@ def respond(data):
         webbrowser.get().open(url)
         printSpeak("Result for " + search)
         
-    elif "weather" in data:
+    elif "weather" in data or "temperature":
         # Key in config.py, which is hidden due to .gitignore
         weather = Weather.Weather(api_key)
         city = voiceSpeech("What city's weather do you want to search?")
